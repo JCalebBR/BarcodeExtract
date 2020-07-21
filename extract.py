@@ -21,13 +21,14 @@ class Extract:
         self.result = pytesseract.image_to_string(
             Image.open(self.filename)
         )
-
-    def textToClipboard(self):
-        if self.result:
+    def textToClipboard(self, data):
+        if data:
+            data = data.replace(r"[^0-9]+", "")
+            print(data)
             win32clipboard.OpenClipboard()
             win32clipboard.EmptyClipboard()
             win32clipboard.SetClipboardData(
-                win32clipboard.CF_UNICODETEXT, self.result
+                win32clipboard.CF_UNICODETEXT, data
             )
             win32clipboard.CloseClipboard()
         else:
